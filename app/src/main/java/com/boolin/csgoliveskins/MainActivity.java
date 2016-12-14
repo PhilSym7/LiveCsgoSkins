@@ -12,8 +12,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.lang.String;
+import java.net.URLEncoder;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -38,8 +40,14 @@ public class MainActivity extends AppCompatActivity {
                 //DO NETWORK CALL
                                             //DO NOT RUN WITH THIS LINK: http://steamcommunity.com/market/search?appid=730%s
                                             //Requests values thousands of times causing temporary ban
-                String url = String.format("http://steamcommunity.com/market/listings/730/AK-47%20%7C%20Point%20Disarray%20%28Field-Tested%29",
-                        query != null && query.length() > 0 ? "&q=" + query : "");
+                String m4a4query = null;
+                try {
+                    m4a4query = URLEncoder.encode("M4A4%20%7C%20Desolate%20Space%20%28Field-Tested%29", "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                String url = "http://steamcommunity.com/market/listings/730/" + m4a4query;
+
                 try {
                     Document document = Jsoup.parse(new URL(url), 5000);
                         Elements e = document.body().getElementsByClass("market_listing_row");
